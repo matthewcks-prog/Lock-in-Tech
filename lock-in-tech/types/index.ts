@@ -1,4 +1,4 @@
-export type Category = 'headphones' | 'mouse' | 'keyboard' | 'laptop-stand' | 'monitor';
+export type Category = 'headphones' | 'mouse' | 'keyboard' | 'laptop-stand' | 'monitor' | 'speaker' | 'accessory' | 'notebook';
 export type Tier = 'budget' | 'value' | 'premium';
 export type Tag = 'noise-cancelling' | 'ergonomic' | 'compact' | 'wireless' | 'aesthetic' | 'rgb';
 export type Environment = 'noisy-dorm' | 'quiet-library' | 'home-office';

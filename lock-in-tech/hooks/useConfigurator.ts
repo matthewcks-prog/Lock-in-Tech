@@ -1,9 +1,10 @@
 import { create } from 'zustand';
 import { Product, Category, Environment, ConfiguratorState, VibeItems } from '../types';
-import { products } from '../data/products';
 
 interface ConfiguratorStore extends ConfiguratorState {
+  availableProducts: Product[];
   // Actions
+  setAvailableProducts: (products: Product[]) => void;
   setBudget: (budget: number) => void;
   setEnvironment: (env: Environment) => void;
   selectProduct: (product: Product) => void;
@@ -59,7 +60,8 @@ const calculateFocusScore = (
 const getBudgetSuggestions = (
   selectedProducts: Partial<Record<Category, Product>>,
   totalCost: number,
-  budget: number
+  budget: number,
+  availableProducts: Product[]
 ): Product[] => {
   if (totalCost <= budget) return [];
 
@@ -73,7 +75,7 @@ const getBudgetSuggestions = (
 
   for (const item of downgradeCandidates) {
     // Find a cheaper alternative in the same category
-    const cheaperAlt = products.find(p => 
+    const cheaperAlt = availableProducts.find(p => 
       p.category === item.category && 
       p.price < item.price &&
       (item.price - p.price) >= (deficit * 0.5) // Try to close at least half the gap
@@ -92,17 +94,20 @@ export const useConfigurator = create<ConfiguratorStore>((set, get) => ({
   budget: 500,
   environment: 'noisy-dorm',
   selectedProducts: {},
+  availableProducts: [],
   vibeItems: { coffee: false, plant: false, lamp: false },
   focusScore: 50,
   totalCost: 0,
   isOverBudget: false,
   suggestions: [],
 
+  setAvailableProducts: (products) => set({ availableProducts: products }),
+
   setBudget: (budget) => {
     set({ budget });
     // Recalculate budget constraints
     const state = get();
-    const suggestions = getBudgetSuggestions(state.selectedProducts, state.totalCost, budget);
+    const suggestions = getBudgetSuggestions(state.selectedProducts, state.totalCost, budget, state.availableProducts);
     set({ 
       isOverBudget: state.totalCost > budget,
       suggestions 
@@ -126,7 +131,7 @@ export const useConfigurator = create<ConfiguratorStore>((set, get) => ({
       const newScore = calculateFocusScore(newSelected, state.environment, state.vibeItems);
 
       // Calculate suggestions
-      const newSuggestions = getBudgetSuggestions(newSelected, newTotal, state.budget);
+      const newSuggestions = getBudgetSuggestions(newSelected, newTotal, state.budget, state.availableProducts);
 
       return {
         selectedProducts: newSelected,

@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useConfigurator } from "../../hooks/useConfigurator";
-import { products } from "../../data/products";
 import { Category } from "../../types";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -27,6 +26,8 @@ const CATEGORIES: Category[] = [
   "keyboard",
   "laptop-stand",
   "monitor",
+  "speaker",
+  "notebook",
 ];
 
 export const ProductSelector = () => {
@@ -43,12 +44,13 @@ export const ProductSelector = () => {
     setEnvironment,
     vibeItems,
     toggleVibeItem,
+    availableProducts,
   } = useConfigurator();
 
   const [activeCategory, setActiveCategory] =
     React.useState<Category>("headphones");
 
-  const currentCategoryProducts = products.filter(
+  const currentCategoryProducts = availableProducts.filter(
     (p) => p.category === activeCategory
   );
 
@@ -110,13 +112,15 @@ export const ProductSelector = () => {
               key={env}
               onClick={() => setEnvironment(env)}
               className={cn(
-                "flex-1 py-2 text-xs font-medium rounded-lg transition-all capitalize",
+                "flex-1 py-2 text-xs font-medium rounded-lg transition-all",
                 environment === env
                   ? "bg-neutral-800 text-white shadow-sm"
                   : "text-neutral-500 hover:text-neutral-300"
               )}
             >
-              {env.replace("-", " ")}
+              {env === "noisy-dorm" && "Roommate Chaos"}
+              {env === "quiet-library" && "Library Deep Work"}
+              {env === "home-office" && "Bedroom Setup"}
             </button>
           )
         )}
@@ -145,6 +149,25 @@ export const ProductSelector = () => {
         {currentCategoryProducts.map((product) => {
           const isSelected =
             selectedProducts[activeCategory]?.id === product.id;
+
+          const getBadge = (cat: string) => {
+            switch (cat) {
+              case "headphones":
+                return "Noise Killer";
+              case "mouse":
+                return "Precision";
+              case "keyboard":
+                return "Tactile";
+              case "laptop-stand":
+                return "Neck Saver";
+              case "monitor":
+                return "Vision Pro";
+              default:
+                return null;
+            }
+          };
+          const badge = getBadge(activeCategory);
+
           return (
             <div
               key={product.id}
@@ -163,7 +186,14 @@ export const ProductSelector = () => {
                 </div>
                 <div className="flex-1">
                   <div className="flex justify-between items-start">
-                    <h3 className="font-medium text-sm">{product.name}</h3>
+                    <div className="flex flex-col gap-1">
+                      <h3 className="font-medium text-sm">{product.name}</h3>
+                      {badge && (
+                        <span className="text-[10px] font-mono text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded w-fit border border-emerald-500/20">
+                          {badge}
+                        </span>
+                      )}
+                    </div>
                     <span className="text-emerald-400 font-mono text-sm">
                       ${product.price}
                     </span>

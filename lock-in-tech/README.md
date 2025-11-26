@@ -1,5 +1,19 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Amazon PA-API Setup
+
+This project uses the Amazon Product Advertising API to fetch real product data. To get started:
+
+1.  Copy `.env.local.example` to `.env.local`:
+    ```bash
+    cp .env.local.example .env.local
+    ```
+2.  Fill in your Amazon Associates credentials in `.env.local`:
+    - `NEXT_PUBLIC_AMAZON_ACCESS_KEY`: Your IAM Access Key
+    - `NEXT_PUBLIC_AMAZON_SECRET_KEY`: Your IAM Secret Key
+    - `NEXT_PUBLIC_AMAZON_PARTNER_TAG`: Your Associates Store ID (e.g., lockintech-20)
+    - `NEXT_PUBLIC_AMAZON_REGION`: Your region (default: us-east-1)
+
 ## Getting Started
 
 First, run the development server:
