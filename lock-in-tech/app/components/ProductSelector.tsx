@@ -4,15 +4,7 @@ import React from "react";
 import { useConfigurator } from "../../hooks/useConfigurator";
 import { Category } from "../../types";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  AlertCircle,
-  Check,
-  Zap,
-  Package,
-  Coffee,
-  Leaf,
-  Lightbulb,
-} from "lucide-react";
+import { AlertCircle, Check, Package } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -21,13 +13,11 @@ function cn(...inputs: ClassValue[]) {
 }
 
 const CATEGORIES: Category[] = [
+  "accessory",
   "headphones",
-  "mouse",
   "keyboard",
-  "laptop-stand",
   "monitor",
-  "speaker",
-  "notebook",
+  "mouse",
 ];
 
 export const ProductSelector = () => {
@@ -36,14 +26,9 @@ export const ProductSelector = () => {
     setBudget,
     selectedProducts,
     selectProduct,
-    focusScore,
     totalCost,
     isOverBudget,
     suggestions,
-    environment,
-    setEnvironment,
-    vibeItems,
-    toggleVibeItem,
     availableProducts,
   } = useConfigurator();
 
@@ -57,34 +42,18 @@ export const ProductSelector = () => {
   return (
     <div className="flex flex-col h-full gap-6 p-6 bg-neutral-950 text-white rounded-3xl border border-neutral-800">
       {/* Header Stats */}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="p-4 bg-neutral-900 rounded-2xl border border-neutral-800">
-          <div className="text-neutral-400 text-sm mb-1">Focus Score</div>
-          <div className="text-3xl font-bold text-emerald-400 flex items-center gap-2">
-            <Zap className="w-6 h-6 fill-emerald-400" />
-            {focusScore}
-          </div>
-        </div>
+      <div className="p-4 bg-neutral-900 rounded-2xl border border-neutral-800">
+        <div className="text-neutral-400 text-sm mb-1">Budget Used</div>
         <div
           className={cn(
-            "p-4 bg-neutral-900 rounded-2xl border transition-colors",
-            isOverBudget
-              ? "border-red-500/50 bg-red-950/10"
-              : "border-neutral-800"
+            "text-3xl font-bold",
+            isOverBudget ? "text-red-400" : "text-white"
           )}
         >
-          <div className="text-neutral-400 text-sm mb-1">Budget Used</div>
-          <div
-            className={cn(
-              "text-3xl font-bold",
-              isOverBudget ? "text-red-400" : "text-white"
-            )}
-          >
-            ${totalCost}{" "}
-            <span className="text-lg text-neutral-500 font-normal">
-              / ${budget}
-            </span>
-          </div>
+          ${totalCost}{" "}
+          <span className="text-lg text-neutral-500 font-normal">
+            / ${budget}
+          </span>
         </div>
       </div>
 
@@ -102,28 +71,6 @@ export const ProductSelector = () => {
           onChange={(e) => setBudget(Number(e.target.value))}
           className="w-full accent-emerald-500 h-2 bg-neutral-800 rounded-lg appearance-none cursor-pointer"
         />
-      </div>
-
-      {/* Environment Selector */}
-      <div className="flex gap-2 p-1 bg-neutral-900 rounded-xl">
-        {(["noisy-dorm", "quiet-library", "home-office"] as const).map(
-          (env) => (
-            <button
-              key={env}
-              onClick={() => setEnvironment(env)}
-              className={cn(
-                "flex-1 py-2 text-xs font-medium rounded-lg transition-all",
-                environment === env
-                  ? "bg-neutral-800 text-white shadow-sm"
-                  : "text-neutral-500 hover:text-neutral-300"
-              )}
-            >
-              {env === "noisy-dorm" && "Roommate Chaos"}
-              {env === "quiet-library" && "Library Deep Work"}
-              {env === "home-office" && "Bedroom Setup"}
-            </button>
-          )
-        )}
       </div>
 
       {/* Category Tabs */}
@@ -218,43 +165,6 @@ export const ProductSelector = () => {
             </div>
           );
         })}
-      </div>
-
-      {/* Vibe Toggles */}
-      <div className="flex gap-4 justify-center pt-4 border-t border-neutral-800">
-        <button
-          onClick={() => toggleVibeItem("coffee")}
-          className={cn(
-            "p-3 rounded-full transition-all",
-            vibeItems.coffee
-              ? "bg-amber-900/50 text-amber-400"
-              : "bg-neutral-900 text-neutral-600"
-          )}
-        >
-          <Coffee className="w-6 h-6" />
-        </button>
-        <button
-          onClick={() => toggleVibeItem("plant")}
-          className={cn(
-            "p-3 rounded-full transition-all",
-            vibeItems.plant
-              ? "bg-green-900/50 text-green-400"
-              : "bg-neutral-900 text-neutral-600"
-          )}
-        >
-          <Leaf className="w-6 h-6" />
-        </button>
-        <button
-          onClick={() => toggleVibeItem("lamp")}
-          className={cn(
-            "p-3 rounded-full transition-all",
-            vibeItems.lamp
-              ? "bg-yellow-900/50 text-yellow-400"
-              : "bg-neutral-900 text-neutral-600"
-          )}
-        >
-          <Lightbulb className="w-6 h-6" />
-        </button>
       </div>
 
       {/* Budget Tetris Suggestions */}

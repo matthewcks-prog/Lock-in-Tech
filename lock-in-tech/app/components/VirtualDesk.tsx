@@ -56,16 +56,22 @@ export const VirtualDesk = () => {
           </motion.div>
         )}
 
-        {/* Laptop Stand (Middle Layer) */}
-        {selectedProducts["laptop-stand"] && (
+        {/* Laptop Stand / Accessory (Middle Layer) */}
+        {(selectedProducts["laptop-stand"] || selectedProducts.accessory) && (
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             className="absolute top-40 left-20 z-20 w-48"
           >
             <Image
-              src={selectedProducts["laptop-stand"].image}
-              alt={selectedProducts["laptop-stand"].name}
+              src={
+                (selectedProducts["laptop-stand"] || selectedProducts.accessory)
+                  ?.image || ""
+              }
+              alt={
+                (selectedProducts["laptop-stand"] || selectedProducts.accessory)
+                  ?.name || "Accessory"
+              }
               width={200}
               height={200}
               unoptimized={true}

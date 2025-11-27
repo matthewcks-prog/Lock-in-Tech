@@ -15,6 +15,8 @@ interface ConfiguratorStore extends ConfiguratorState {
   totalCost: number;
   isOverBudget: boolean;
   suggestions: Product[]; // "Budget Tetris" suggestions
+  lateNightMode: boolean;
+  setLateNightMode: (isNight: boolean) => void;
 }
 
 const calculateFocusScore = (
@@ -39,7 +41,7 @@ const calculateFocusScore = (
     if (selectedProducts.mouse?.tags.includes('compact')) score += 5;
   } else if (environment === 'home-office') {
     if (selectedProducts.mouse?.tags.includes('ergonomic')) score += 10;
-    if (selectedProducts['laptop-stand']?.tags.includes('ergonomic')) score += 10;
+    if (selectedProducts.accessory?.tags.includes('ergonomic')) score += 10;
   }
 
   // 3. Synergy Bonus (Brand Match)
@@ -100,8 +102,10 @@ export const useConfigurator = create<ConfiguratorStore>((set, get) => ({
   totalCost: 0,
   isOverBudget: false,
   suggestions: [],
+  lateNightMode: false,
 
   setAvailableProducts: (products) => set({ availableProducts: products }),
+  setLateNightMode: (lateNightMode) => set({ lateNightMode }),
 
   setBudget: (budget) => {
     set({ budget });

@@ -30,15 +30,19 @@ const LoadoutCard = ({
   href,
 }: LoadoutProps) => {
   return (
-    <div className="flex flex-col rounded-3xl border border-zinc-800 bg-zinc-900/80 p-6 md:p-8 shadow-lg shadow-black/40 h-full">
+    <div className="flex flex-col rounded-3xl border border-slate-200/50 bg-white/80 backdrop-blur-sm p-6 md:p-8 shadow-xl h-full hover:shadow-2xl transition-shadow">
       {/* Header Section */}
-      <div className="flex justify-between items-start mb-8 gap-4">
+      <div className="flex justify-between items-start mb-6 gap-4">
         <div className="flex-1">
-          <h2 className="text-2xl font-bold text-white mb-2">{title}</h2>
-          <p className="text-sm text-zinc-500 leading-relaxed">{subtitle}</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+            {title}
+          </h2>
+          <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+            {subtitle}
+          </p>
         </div>
         {/* Video Placeholder */}
-        <div className="hidden md:block w-40 h-24 rounded-lg overflow-hidden bg-zinc-800 shrink-0 border border-zinc-700/50">
+        <div className="hidden md:block w-32 lg:w-40 h-20 lg:h-24 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200/50 shadow-md">
           <video
             src={videoSrc}
             poster={videoPoster}
@@ -46,23 +50,25 @@ const LoadoutCard = ({
             loop
             muted
             playsInline
-            className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity"
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
           />
         </div>
       </div>
 
       {/* Products List */}
-      <div className="flex-1 flex flex-col gap-6 mb-8">
+      <div className="flex-1 flex flex-col gap-5 mb-6">
         {items.map((item, i) => (
           <div key={i} className="group">
-            <div className="flex items-baseline gap-2 mb-1">
-              <h3 className="font-bold text-zinc-200 text-lg">{item.name}</h3>
-              <span className="text-xs font-mono text-zinc-500 uppercase tracking-wider">
-                - {item.role}
+            <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2 mb-1">
+              <h3 className="font-bold text-slate-900 text-base sm:text-lg">
+                {item.name}
+              </h3>
+              <span className="text-xs font-mono text-slate-500 uppercase tracking-wider">
+                {item.role}
               </span>
             </div>
-            <p className="text-sm text-zinc-400 leading-relaxed">
-              <span className="text-emerald-400 font-medium">Why: </span>
+            <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
+              <span className="text-blue-600 font-semibold">Why: </span>
               {item.why}
             </p>
           </div>
@@ -70,19 +76,21 @@ const LoadoutCard = ({
       </div>
 
       {/* Bottom Section */}
-      <div className="pt-6 border-t border-zinc-800/50 space-y-4">
+      <div className="pt-5 border-t border-slate-200/50 space-y-4">
         <div>
-          <h4 className="text-sm font-bold text-zinc-300 mb-1">
+          <h4 className="text-sm font-bold text-slate-800 mb-1">
             How I&apos;d use it:
           </h4>
-          <p className="text-sm text-zinc-400 italic">{how}</p>
+          <p className="text-sm sm:text-base text-slate-600 italic leading-relaxed">
+            {how}
+          </p>
         </div>
 
-        <p className="text-xs text-zinc-600">{total}</p>
+        <p className="text-xs sm:text-sm text-slate-500">{total}</p>
 
         <Link
           href={href}
-          className="inline-flex items-center gap-2 text-emerald-400 hover:text-emerald-300 font-medium transition-colors group mt-2"
+          className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold transition-colors group mt-2 text-sm sm:text-base"
         >
           See full breakdown
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -153,31 +161,32 @@ const loadouts: LoadoutProps[] = [
 
 export const KitGrid = () => {
   return (
-    <section className="w-full max-w-7xl mx-auto px-4 pb-20">
+    <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-20">
       {/* Badge */}
-      <div className="flex justify-center mb-8">
-        <span className="px-3 py-1 rounded-full bg-zinc-800 border border-zinc-700 text-xs font-bold text-zinc-300 uppercase tracking-widest">
-          Editors Choice: As of Dec 2025
+      <div className="flex justify-center mb-8 sm:mb-12">
+        <span className="px-4 py-2 rounded-full bg-slate-800 text-white text-xs sm:text-sm font-bold uppercase tracking-widest shadow-lg">
+          Editor&apos;s Choice: As of Dec 2025
         </span>
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
         {loadouts.map((loadout, index) => (
           <LoadoutCard key={index} {...loadout} />
         ))}
       </div>
 
-      <div className="mt-20 text-center">
-        <h3 className="text-2xl font-mono font-bold text-white mb-6">
-          Wanna try your own?
+      {/* Bottom CTA */}
+      <div className="mt-16 sm:mt-20 text-center">
+        <h3 className="text-2xl sm:text-3xl font-mono font-bold text-slate-900 mb-6">
+          Want to try your own?
         </h3>
         <Link
           href="/configurator"
-          className="inline-flex items-center gap-2 px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-full transition-all hover:scale-105 font-mono"
+          className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full transition-all hover:scale-105 font-mono shadow-lg text-sm sm:text-base"
         >
           Launch Configurator
-          <ArrowRight className="w-5 h-5" />
+          <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
         </Link>
       </div>
     </section>
